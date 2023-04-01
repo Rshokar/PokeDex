@@ -1,9 +1,14 @@
 import React from 'react';
+import Auth from './screens/Auth';
+import container from './style';
+
+
 function App() {
   return (
-    <div className="App">
-      THIS IS MY POKEDEX
+    <div >
+      <Auth />
     </div>
+
   );
 }
 
