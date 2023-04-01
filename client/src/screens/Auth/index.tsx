@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Login from '../../components/LoginForm';
-import Register from '../../components/RegisterForm';
-import container from './style';
-import HalfCard from '../../components/HalfCard';
-
+import React, { useState, Dispatch } from 'react';
+import LoginForm from '../../components/Forms/LoginForm';
+import RegisterForm from '../../components/Forms/RegisterForm';
+import style from './style';
+import HalfCard from '../../components/Card';
+import { set } from 'react-hook-form';
 
 type Props = {
 
@@ -14,24 +14,25 @@ const Auth = ({ }: Props) => {
 
     const [login, setLogin] = useState<boolean>(true);
 
-
+    const { container, title } = style;
 
     return (
         <>
-            {
-                login ?
-                    <span>Login</span>
-                    :
-                    <span>Register</span>
-            }
-
             <HalfCard>
-                {
-                    login ?
-                        <Login />
-                        :
-                        <Register />
-                }
+                <div style={container}>
+                    {
+                        login ?
+                            <>
+                                <span style={title}>Login</span>
+                                <LoginForm setLogin={() => setLogin(false)} />
+                            </>
+                            :
+                            <>
+                                <span style={title}>Register</span>
+                                <RegisterForm setLogin={() => setLogin(true)} />
+                            </>
+                    }
+                </div>
             </HalfCard>
         </>
     )
