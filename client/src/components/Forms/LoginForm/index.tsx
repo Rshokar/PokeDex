@@ -2,6 +2,9 @@ import exp from 'constants';
 import { useForm } from 'react-hook-form';
 import style from '../style';
 import '../style.css';
+import Input from '../Inputs';
+import Button from '../Button';
+
 
 type LoginFormInputs = {
     email: string;
@@ -20,26 +23,29 @@ export const LoginForm = ({ setLogin }: Props) => {
     } = useForm<LoginFormInputs>();
 
     const onSubmit = (data: LoginFormInputs) => {
-        console.log(data);
+        setLogin(true)
     };
 
     const { container, inputs, button, inputContainer, error } = style;
 
     return (
         <form style={container} onSubmit={handleSubmit(onSubmit)}>
-            <div style={inputContainer}>
-                <input style={inputs} {...register('email', { required: true })} placeholder='Email' />
-                {errors.email && <span style={error}>This field is required</span>}
-            </div>
+            <Input
+                placeholder={'Email'}
+                register={register('email', { required: true })}
+                error={errors.email && "This field is required"}
+            />
 
-            <div style={inputContainer}>
-                <input style={inputs} {...register('password', { required: true })} placeholder='Password' />
-                {errors.password && <span style={error}>This field is required</span>}
-            </div>
+            <Input
+                placeholder={'Confirm Password'}
+                type={'password'}
+                register={register("password", { required: true })}
+                error={errors.password && 'This field is required'}
+            />
 
-            <br />
-
-            <button style={button} type="submit">Log In</button>
+            <Button type="submit" >
+                Login
+            </Button>
 
             <span onClick={e => { e.preventDefault(); setLogin() }}>Dont have an account?</span>
         </form>

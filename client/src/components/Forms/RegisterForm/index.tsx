@@ -54,7 +54,7 @@ const RegisterForm = ({ setLogin }: Props) => {
         setIsLoading(true);
         try {
             // Submit form data to API or perform other actions here
-            console.log(data);
+            setLogin(true)
         } catch (error) {
             console.log(error);
         }
@@ -62,12 +62,11 @@ const RegisterForm = ({ setLogin }: Props) => {
     };
 
     const password = watch('password')
-    const email = watch('email')
 
-
-    console.log("PASSWORD: ", password)
-    console.log("EMAIL: ", email)
-    console.log("EMAIL ERROR: ", errors.email?.type)
+    let confirmPasswordError = undefined
+    if (errors.confirmPassword) {
+        confirmPasswordError = errors.confirmPassword?.type === 'required' ? 'This field is required' : 'Passwords do not match'
+    }
 
     return (
         <form style={container} onSubmit={handleSubmit(onSubmit)}>
@@ -90,7 +89,7 @@ const RegisterForm = ({ setLogin }: Props) => {
                 placeholder={'Confirm Password'}
                 type={'password'}
                 register={register("confirmPassword", { required: true })}
-                error={errors.confirmPassword?.type === 'required' ? 'This field is required' : 'Passwords do not match'}
+                error={confirmPasswordError}
             />
 
             <div style={inputContainer}>
