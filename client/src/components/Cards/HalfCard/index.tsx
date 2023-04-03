@@ -1,8 +1,11 @@
 import React from 'react'
 import style from './style'
-type Props = {}
 
-const HalfCard = (props: Props) => {
+type Props = {
+    children: React.ReactNode
+}
+
+const HalfCard = ({ children }: Props) => {
 
     const { wrapper } = style
 
@@ -10,3 +13,5 @@ const HalfCard = (props: Props) => {
         <div style={wrapper}>HalfCard</div>
     )
 }
+
+export default HalfCard

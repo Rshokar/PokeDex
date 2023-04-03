@@ -9,7 +9,8 @@ const wrapper: React.CSSProperties = {
     "display": 'flex',
     "flexDirection": "row",
     "justifyContent": "center",
-    "alignContent": 'center'
+    "alignContent": 'center',
+    "backgroundColor": "#ffcb05"
 }
 
 const button: React.CSSProperties = {

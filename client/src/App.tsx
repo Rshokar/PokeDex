@@ -5,6 +5,7 @@ import User from './models/User';
 import BottomNav, { NavButtonProps } from './components/NavBar';
 import NavButton from './components/NavBar'
 import AcUnitIcon from '@mui/icons-material/AcUnit';
+import Dashboard from './screens/Dashboard';
 
 
 const { container } = style;
@@ -30,7 +31,7 @@ function App() {
     if (!user)
       return setNavBarButtons([])
 
-    if (user.role !== 'admin')
+    if (user.role === 'admin')
       results.push({ label: "Dashboard", icon: <AcUnitIcon /> })
 
     results.push({ label: "Pokedex", icon: <AcUnitIcon /> })
@@ -40,15 +41,13 @@ function App() {
   }, [user])
 
 
-
-
   return (
     <div style={container}>
       {!user ?
         <Auth setUser={setUser} />
         :
         <>
-          Dashboard
+          <Dashboard />
           <BottomNav buttons={navBarButtons} />
         </>
       }
