@@ -1,4 +1,4 @@
-import HalfCard from "./Card";
+import HalfCard from "./Cards/Card";
 
 
 export default {

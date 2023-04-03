@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import Input from '../Inputs';
 import Button from '../Button';
 import style from '../style'
+import User from '../../../models/User';
 
 type FormValues = {
     email: string;
@@ -13,6 +14,7 @@ type FormValues = {
 
 type Props = {
     setLogin: Function
+    authenticate: React.Dispatch<React.SetStateAction<User | undefined>>
 }
 
 const inputs: React.CSSProperties = {
@@ -44,7 +46,7 @@ const error: React.CSSProperties = {
     padding: "0px",
 }
 
-const RegisterForm = ({ setLogin }: Props) => {
+const RegisterForm = ({ setLogin, authenticate }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>();
 
@@ -54,7 +56,7 @@ const RegisterForm = ({ setLogin }: Props) => {
         setIsLoading(true);
         try {
             // Submit form data to API or perform other actions here
-            setLogin(true)
+            authenticate(new User(0, 'rav@demo.com', 'user'))
         } catch (error) {
             console.log(error);
         }

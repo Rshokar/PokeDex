@@ -4,6 +4,7 @@ import style from '../style';
 import '../style.css';
 import Input from '../Inputs';
 import Button from '../Button';
+import User from '../../../models/User';
 
 
 type LoginFormInputs = {
@@ -13,9 +14,10 @@ type LoginFormInputs = {
 
 type Props = {
     setLogin: Function
+    authenticate: React.Dispatch<React.SetStateAction<User | undefined>>
 }
 
-export const LoginForm = ({ setLogin }: Props) => {
+export const LoginForm = ({ setLogin, authenticate }: Props) => {
     const {
         register,
         handleSubmit,
@@ -23,7 +25,7 @@ export const LoginForm = ({ setLogin }: Props) => {
     } = useForm<LoginFormInputs>();
 
     const onSubmit = (data: LoginFormInputs) => {
-        setLogin(true)
+        authenticate(new User(0, 'rav@demo.com', 'user'))
     };
 
     const { container, inputs, button, inputContainer, error } = style;
