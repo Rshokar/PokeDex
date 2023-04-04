@@ -10,7 +10,7 @@ const HalfCard = ({ children }: Props) => {
     const { wrapper } = style
 
     return (
-        <div style={wrapper}>HalfCard</div>
+        <div style={wrapper}>{children}</div>
     )
 }
 

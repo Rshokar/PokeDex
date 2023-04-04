@@ -3,6 +3,7 @@ import style from './style'
 import HalfCard from '../../components/Cards/HalfCard'
 import Pokemon from '../../models/Pokemon'
 import { PokemonController } from '../../controllers/PokemonController'
+import Images from '../../components/Images'
 
 
 const Dashboard = () => {
@@ -11,16 +12,15 @@ const Dashboard = () => {
 
     useEffect(() => {
         async function run(): Promise<any> {
-            const pk = await PokemonController.getPokedex();
-            console.log(pk)
+            const pk: Pokemon[] = await PokemonController.getPokedex();
+            setPokemon(pk);
         }
-
         run()
     }, [])
-    const { container } = style;
+
     return (
         <HalfCard >
-            <span>HELLO HELLO JMELLO</span>
+            <Images pokemon={pokemon} />
         </HalfCard>
     )
 }
