@@ -16,7 +16,11 @@ const wrapper: React.CSSProperties = {
     alignItems: 'center',
     justifyContent: 'space-evenly',
     borderTopLeftRadius: '30px',
-    borderTopRightRadius: '30px'
+    borderTopRightRadius: '30px',
+    gap: '10px',
+    marginBottom: '55px',
+    paddingBottom: '10px',
+    overflowY: 'scroll',
 }
 
 

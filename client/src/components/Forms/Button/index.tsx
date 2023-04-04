@@ -1,9 +1,11 @@
-import React from 'react'
 import { ButtonProps } from './resource'
 import style from './resource'
 
 
 const Button = (props: ButtonProps) => {
+
+    console.log(props)
+
     return (
         <button {...props} style={{ ...style.container, ...props.style }} type="submit">
             {props.children}

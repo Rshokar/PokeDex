@@ -4,6 +4,7 @@ import HalfCard from '../../components/Cards/HalfCard'
 import Pokemon from '../../models/Pokemon'
 import { PokemonController } from '../../controllers/PokemonController'
 import Images from '../../components/Images'
+import Button from '../../components/Forms/Button'
 
 
 const Dashboard = () => {
@@ -21,6 +22,9 @@ const Dashboard = () => {
     return (
         <HalfCard >
             <Images pokemon={pokemon} />
+            <Button style={{ width: '100%' }}>
+                Load More
+            </Button>
         </HalfCard>
     )
 }

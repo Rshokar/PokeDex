@@ -1,4 +1,3 @@
-import exp from 'constants';
 import { useForm } from 'react-hook-form';
 import style from '../style';
 import '../style.css';
@@ -28,7 +27,7 @@ export const LoginForm = ({ setLogin, authenticate }: Props) => {
         authenticate(new User(0, 'rav@demo.com', 'user'))
     };
 
-    const { container, inputs, button, inputContainer, error } = style;
+    const { container } = style;
 
     return (
         <form style={container} onSubmit={handleSubmit(onSubmit)}>
@@ -45,7 +44,7 @@ export const LoginForm = ({ setLogin, authenticate }: Props) => {
                 error={errors.password && 'This field is required'}
             />
 
-            <Button type="submit" >
+            <Button type="submit">
                 Login
             </Button>
 
