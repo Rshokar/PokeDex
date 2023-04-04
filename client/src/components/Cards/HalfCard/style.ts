@@ -14,7 +14,7 @@ const wrapper: React.CSSProperties = {
     flexDirection: "row",
     flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     borderTopLeftRadius: '30px',
     borderTopRightRadius: '30px'
 }

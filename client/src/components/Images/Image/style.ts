@@ -1,6 +1,7 @@
 import React from "react";
 
 const wrapper: React.CSSProperties = {
+    flexGrow: 1
 }
 
 
