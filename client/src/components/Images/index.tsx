@@ -8,9 +8,6 @@ type Props = {
 }
 
 const Images = ({ pokemon }: Props) => {
-
-    console.log("POKEMON:", pokemon)
-
     const [i, setI] = useState<number>(0) // I dont remember what this does, i lifted it from my last assignment
     return <>
         {
