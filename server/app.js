@@ -73,7 +73,12 @@ const resetDB = async () => {
 
 
 app.get('/pokemons', async (req, res) => {
-    const p = await Pokemon.find();
+
+    // Pagination 
+    const page = req.query.page || 0
+    const limit = req.query.limit || 10
+
+    const p = await Pokemon.find().skip(page * limit).limit(limit);
     return res.send(p);
 })
 
