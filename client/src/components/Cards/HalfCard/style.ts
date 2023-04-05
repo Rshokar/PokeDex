@@ -6,7 +6,7 @@ const wrapper: React.CSSProperties = {
     bottom: 0,
     left: 0,
     right: 0,
-    height: '60%',
+    height: '50%',
     backgroundColor: 'white',
     boxShadow: "0 -1px 6px rgba(0,0,0,0.1)",
     zIndex: 0,

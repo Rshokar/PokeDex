@@ -13,7 +13,7 @@ const container: React.CSSProperties = {
     color: "#E8EEF2",
     fontSize: "20px",
     margin: "5px",
-    marginBottom: "20px",
+    marginBottom: "0px",
     borderRadius: "5px",
 }
 

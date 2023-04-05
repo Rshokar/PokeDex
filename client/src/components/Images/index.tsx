@@ -4,10 +4,11 @@ import Image from './Image'
 
 
 type Props = {
-    pokemon: Pokemon[]
+    pokemon: Pokemon[],
+    setPK: Function
 }
 
-const Images = ({ pokemon }: Props) => {
+const Images = ({ pokemon, setPK }: Props) => {
     const [i, setI] = useState<number>(0) // I dont remember what this does, i lifted it from my last assignment
     return <>
         {
@@ -23,7 +24,7 @@ const Images = ({ pokemon }: Props) => {
                         }
                         final += strIndex
                     }
-                    return <Image id={final} name={pokemon[i + index].name.english} />
+                    return <Image id={final} name={pokemon[i + index].name.english} onClick={() => setPK(pokemon[i + index])} />
                 })
 
         }
