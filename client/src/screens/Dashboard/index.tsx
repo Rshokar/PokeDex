@@ -28,7 +28,7 @@ const Dashboard = () => {
 
     return (
         <>
-            {pk && <PK pk={pk} />}
+            {pk && <PK pk={pk} setPk={setPK} />}
             <HalfCard >
                 {pk ? <PokemonStats pK={pk} /> :
                     <>

@@ -1,19 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './style'
 import Pokemon from '../../models/Pokemon'
+import Controls from '../Controls'
+import Title from '../../Title'
 
 type Props = {
-    pk: Pokemon
+    pk: Pokemon,
+    setPk: Function
 }
 
-const PK = ({ pk }: Props) => {
+const PK = ({ pk, setPk }: Props) => {
+
+    let [id, setId] = useState<string>(pk.id + "")
+    useEffect(() => {
+        while (id.length < 3) {
+            id = "0" + id
+        }
+
+        setId(id);
+    }, [pk])
 
     console.log("PK:", pk)
 
-    const { wrapper } = style
+    const { wrapper, image } = style
 
     return (
-        <div style={wrapper}>Pokemon</div>
+        <div style={wrapper}>
+            <Controls back={() => { setPk(undefined) }} />
+            <Title pK={pk} />
+            <img style={image} src={`https://raw.githubusercontent.com/fanzeyi/pokemon.json/master/thumbnails/${id}.png`} />
+        </div>
     )
 }
 
