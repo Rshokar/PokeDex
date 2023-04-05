@@ -1,7 +1,11 @@
 import React from "react";
 
 const wrapper: React.CSSProperties = {
-    flexGrow: 1
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
 }
 
 

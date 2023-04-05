@@ -23,7 +23,7 @@ const Images = ({ pokemon }: Props) => {
                         }
                         final += strIndex
                     }
-                    return <Image id={final} />
+                    return <Image id={final} name={pokemon[i + index].name.english} />
                 })
 
         }
