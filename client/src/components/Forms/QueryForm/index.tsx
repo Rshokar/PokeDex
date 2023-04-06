@@ -2,12 +2,9 @@ import React from 'react'
 import style from '../style'
 import Input from '../Inputs'
 import { useForm } from 'react-hook-form'
+import Button from '../Button'
+import Query from '../../../models/Query'
 
-
-type QueryFormInputs = {
-    name: string,
-    types: string[]
-}
 
 type Props = {
     setQuery: Function
@@ -17,9 +14,9 @@ const { container } = style;
 
 const QueryForm = ({ setQuery }: Props) => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm<QueryFormInputs>();
+    const { register, handleSubmit, formState: { errors } } = useForm<Query>();
 
-    const onSubmit = (data: QueryFormInputs) => {
+    const onSubmit = (data: Query) => {
         setQuery(data);
     }
 
@@ -31,6 +28,10 @@ const QueryForm = ({ setQuery }: Props) => {
                 error={errors.name && "This field is required"}
             >
             </Input>
+
+            <Button >
+                Submit
+            </Button>
         </form>
     )
 }

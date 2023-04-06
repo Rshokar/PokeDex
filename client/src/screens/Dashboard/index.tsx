@@ -12,11 +12,13 @@ import PK from '../../components/Pokemon'
 import QueryForm from '../../components/Forms/QueryForm';
 import Card from '../../components/Cards/Card';
 import Overlay from '../../components/Overlay';
+import Query from '../../models/Query';
 
 
 const Dashboard = () => {
 
     const [pokemon, setPokemon] = useState<Pokemon[]>([]);
+    const [query, setQuery] = useState<Query>();
     const [pk, setPK] = useState<Pokemon | undefined>();
     const [showQuery, setShowQuery] = useState<boolean>();
     const [page, setPage] = useState<number>(0);
@@ -56,7 +58,7 @@ const Dashboard = () => {
                 showQuery &&
                 <Overlay>
                     <Card style={floatingQueryForm}>
-                        HELLLO
+                        <QueryForm setQuery={setQuery} />
                     </Card>
                 </Overlay>
             }
