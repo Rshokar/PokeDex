@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { Fab } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search';
 import style from './style'
 import HalfCard from '../../components/Cards/HalfCard'
 import Pokemon from '../../models/Pokemon'
@@ -16,7 +18,7 @@ const Dashboard = () => {
     const [page, setPage] = useState<number>(0);
     const [limit, setLimit] = useState<number>(9);
 
-    console.log("Pokemon", pk)
+    const { floatingButton } = style
 
     useEffect(() => {
         async function run(): Promise<any> {
@@ -43,6 +45,9 @@ const Dashboard = () => {
 
                 }
             </HalfCard>
+            <Fab style={floatingButton}>
+                <SearchIcon />
+            </Fab>
         </>
     )
 }
