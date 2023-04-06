@@ -2,14 +2,15 @@ import React from 'react'
 import style from './style'
 
 type Props = {
-    children: React.ReactNode
+    children: React.ReactNode,
+    style?: React.CSSProperties
 }
 
 const { container } = style;
 
-function HalfCard({ children }: Props) {
+function HalfCard({ children, style }: Props) {
     return (
-        <div style={container}>
+        <div style={{ ...container, ...style }}>
             {children}
         </div>
     )

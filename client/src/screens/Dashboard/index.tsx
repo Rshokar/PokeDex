@@ -9,16 +9,19 @@ import Images from '../../components/Images'
 import Button from '../../components/Forms/Button'
 import PokemonStats from '../../components/PokemonStats'
 import PK from '../../components/Pokemon'
+import QueryForm from '../../components/Forms/QueryForm';
+import Card from '../../components/Cards/Card';
 
 
 const Dashboard = () => {
 
     const [pokemon, setPokemon] = useState<Pokemon[]>([]);
     const [pk, setPK] = useState<Pokemon | undefined>();
+    const [showQuery, setShowQuery] = useState<boolean>();
     const [page, setPage] = useState<number>(0);
     const [limit, setLimit] = useState<number>(9);
 
-    const { floatingButton } = style
+    const { floatingButton, floatingQueryForm } = style
 
     useEffect(() => {
         async function run(): Promise<any> {
@@ -45,9 +48,16 @@ const Dashboard = () => {
 
                 }
             </HalfCard>
-            <Fab style={floatingButton}>
+            <Fab style={floatingButton} onClick={() => setShowQuery(true)}>
                 <SearchIcon />
             </Fab>
+            {
+                showQuery &&
+                <Card style={floatingQueryForm}>
+                    HELLLO
+                </Card>
+            }
+
         </>
     )
 }
