@@ -11,6 +11,7 @@ import PokemonStats from '../../components/PokemonStats'
 import PK from '../../components/Pokemon'
 import QueryForm from '../../components/Forms/QueryForm';
 import Card from '../../components/Cards/Card';
+import Overlay from '../../components/Overlay';
 
 
 const Dashboard = () => {
@@ -53,9 +54,11 @@ const Dashboard = () => {
             </Fab>
             {
                 showQuery &&
-                <Card style={floatingQueryForm}>
-                    HELLLO
-                </Card>
+                <Overlay>
+                    <Card style={floatingQueryForm}>
+                        HELLLO
+                    </Card>
+                </Overlay>
             }
 
         </>
