@@ -81,6 +81,8 @@ app.get('/pokemons', async (req, res) => {
 
     const temp = await Pokemon.find();
 
+    console.log(req.query)
+
     // // Make a collection of all the types
     // let types = []
     // temp.forEach((pokemon) => {

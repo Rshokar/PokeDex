@@ -1,12 +1,22 @@
 import axios, { AxiosResponse } from 'axios'
 import Pokemon from '../models/Pokemon'
+import Query from '../models/Query';
 
 export class PokemonController {
 
-    static async getPokedex(page: number = 0, limit: number = 12): Promise<Pokemon[]> {
+    static async getPokedex(page: number = 0, limit: number = 12, query?: Query): Promise<Pokemon[]> {
+
+
+        console.log("QUERY: ", query)
         try {
-            const response: AxiosResponse<Pokemon[]> = await axios.get('http://localhost:5000/pokemons?page=' + page + '&limit=' + limit);
-            return response.data;
+
+            if (!query)
+                return (await axios.get('http://localhost:5000/pokemons?page=' + page + '&limit=' + limit)).data
+
+            const { name, values } = query;
+
+            return (await axios.get(`http://localhost:5000/pokemons?page=${page}&limit=${limit}&name=${name}${values.map(type => "&type=" + type)}`)).data
+
         } catch (error) {
             console.error(error);
             return [];

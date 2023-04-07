@@ -28,13 +28,12 @@ const Dashboard = () => {
 
     useEffect(() => {
         async function run(): Promise<any> {
-            const pk: Pokemon[] = await PokemonController.getPokedex(page, limit);
+            const pk: Pokemon[] = await PokemonController.getPokedex(page, limit, query);
             setPokemon([...pokemon, ...pk]);
         }
         run()
     }, [page, limit])
 
-    console.log("QUERY: ", query)
 
     return (
         <>
