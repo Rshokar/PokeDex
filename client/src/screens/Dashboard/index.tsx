@@ -35,6 +35,17 @@ const Dashboard = () => {
     }, [page, limit])
 
 
+
+    useEffect(() => {
+        async function run(): Promise<any> {
+
+            const pk: Pokemon[] = await PokemonController.getPokedex(page, limit, query);
+            setPokemon([...pokemon, ...pk]);
+        }
+        run()
+    }, [query])
+
+
     return (
         <>
             {pk && <PK pk={pk} setPk={setPK} />}
