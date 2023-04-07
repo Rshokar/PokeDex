@@ -11,7 +11,7 @@ import Dashboard from './screens/Dashboard';
 const { container } = style;
 function App() {
 
-  const [user, setUser] = useState<User | undefined>(undefined)
+  const [user, setUser] = useState<{ user: User, access: string, refresh: string } | undefined>(undefined)
   const [navBarButtons, setNavBarButtons] = useState<NavButtonProps[]>([])
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function App() {
     if (!user)
       return setNavBarButtons([])
 
-    if (user.role === 'admin')
+    if (user.user.role === 'admin')
       results.push({ label: "Dashboard", icon: <AcUnitIcon /> })
 
     results.push({ label: "Pokedex", icon: <AcUnitIcon /> })

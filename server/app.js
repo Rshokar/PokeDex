@@ -9,9 +9,12 @@ const bodyParer = require('body-parser')
 const swaggerJSDoc = require('swagger-jsdoc')
 const morgan = require('morgan');
 const cors = require('cors');
+const cookeParser = require('cookie-parser');
 const { login, logout, register, authenticate } = require('./controllers/AuthController')
 
+
 const app = express()
+app.use(cookeParser());
 app.use(bodyParer.json())
 app.use(morgan('dev'))
 const swaggerOptions = {
@@ -24,7 +27,19 @@ const swaggerOptions = {
     },
     apis: ['app.js']
 }
-app.use(cors())
+app.use(cors({
+    "origin": "*",
+    "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+}))
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Expose-Headers', '*');
+    // Allow client to send and recieve cookies
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    next();
+});
+
 
 
 

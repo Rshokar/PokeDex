@@ -14,7 +14,7 @@ type FormValues = {
 
 type Props = {
     setLogin: Function
-    authenticate: React.Dispatch<React.SetStateAction<User | undefined>>
+    reg: (email: string, password: string, role: string) => Promise<void>
     formError: string
 }
 
@@ -47,7 +47,7 @@ const error: React.CSSProperties = {
     padding: "0px",
 }
 
-const RegisterForm = ({ setLogin, authenticate, formError }: Props) => {
+const RegisterForm = ({ setLogin, reg, formError }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>();
 
@@ -55,12 +55,7 @@ const RegisterForm = ({ setLogin, authenticate, formError }: Props) => {
 
     const onSubmit = async (data: FormValues) => {
         setIsLoading(true);
-        try {
-            // Submit form data to API or perform other actions here
-            authenticate(new User(0, 'rav@demo.com', 'user'))
-        } catch (error) {
-            console.log(error);
-        }
+        reg(data.email, data.password, data.role)
         setIsLoading(false);
     };
 
@@ -104,7 +99,7 @@ const RegisterForm = ({ setLogin, authenticate, formError }: Props) => {
                 {errors.role && <span style={error}>This field is required</span>}
             </div>
 
-            {error && <span style={error} >{formError}</span>}
+            {formError && <span style={error} >{formError}</span>}
 
             <Button type="submit" disabled={isLoading} >
                 Register

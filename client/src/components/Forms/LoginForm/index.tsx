@@ -29,7 +29,7 @@ export const LoginForm = ({ setLogin, authenticate, formError }: Props) => {
         return authenticate(data.email, data.password)
     };
 
-    const { container } = style;
+    const { container, error } = style;
 
     return (
         <form style={container} onSubmit={handleSubmit(onSubmit)}>
@@ -45,6 +45,9 @@ export const LoginForm = ({ setLogin, authenticate, formError }: Props) => {
                 register={register("password", { required: true })}
                 error={errors.password && 'This field is required'}
             />
+
+            {formError && <span style={error} >{formError}</span>}
+
 
             <Button type="submit">
                 Login

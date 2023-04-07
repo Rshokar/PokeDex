@@ -9,15 +9,17 @@ let REFRESH_TOKEN_ARR = [];
 
 
 const login = async (req, res) => {
+
+    console.log(req.headers)
     // See if username and password are provided
-    if (!req.body.username || !req.body.password) {
+    if (!req.body.email || !req.body.password) {
         return res.status(400).json({
             message: 'Username and password are required'
         });
     }
 
     // See if user exists
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({ email: req.body.email });
 
     // See if user exists
     if (!user) {
@@ -41,9 +43,12 @@ const login = async (req, res) => {
     res.header("auth-token", access);
     res.header("refresh-token", refresh);
 
+    // Print all headers
+    console.log(res.getHeaders());
+
     REFRESH_TOKEN_ARR.push(refresh);
 
-    return res.send({ message: 'Logged in successfully' });
+    return res.send({ message: 'Logged in successfully', user: user });
 }
 
 const logout = async (req, res) => {
@@ -71,18 +76,22 @@ const logout = async (req, res) => {
 
 const register = async (req, res, next) => {
 
+    // await User.deleteMany()
+
+    console.log("GOT EM: ", req.body)
     // Check to see if username and password are provided
-    if (!req.body.username || !req.body.password) {
+    if (!req.body.email || !req.body.password) {
         return res.status(400).json({
             message: 'Username and password are required'
         });
     }
 
     // Check to see if username is already taken
-    const dupUser = await User.findOne({ username: req.body.username });
+    const dupUser = await User.findOne({ email: req.body.email });
+    console.log(dupUser)
     if (dupUser) {
         return res.status(400).json({
-            message: 'Username already taken'
+            message: 'Email already taken'
         });
     }
 
@@ -92,7 +101,7 @@ const register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     // Create new user
-    const newUser = new User({ username: req.body.username, password: hashedPassword, type: req.body.type });
+    const newUser = new User({ email: req.body.email, password: hashedPassword, type: req.body.type });
 
     console.log("NEW USER: ", newUser)
 
@@ -105,6 +114,7 @@ const register = async (req, res, next) => {
         });
     }
     catch (err) {
+        console.log(err)
         return res.status(400).json({
             message: 'Error creating user'
         });
