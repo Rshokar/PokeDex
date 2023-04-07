@@ -20,7 +20,7 @@ const Dashboard = () => {
     const [pokemon, setPokemon] = useState<Pokemon[]>([]);
     const [query, setQuery] = useState<Query>();
     const [pk, setPK] = useState<Pokemon | undefined>();
-    const [showQuery, setShowQuery] = useState<boolean>();
+    const [showQuery, setShowQuery] = useState<boolean>(false);
     const [page, setPage] = useState<number>(0);
     const [limit, setLimit] = useState<number>(9);
 
@@ -33,6 +33,8 @@ const Dashboard = () => {
         }
         run()
     }, [page, limit])
+
+    console.log("QUERY: ", query)
 
     return (
         <>
@@ -58,7 +60,7 @@ const Dashboard = () => {
                 showQuery &&
                 <Overlay>
                     <Card style={floatingQueryForm}>
-                        <QueryForm setQuery={setQuery} />
+                        <QueryForm setQuery={setQuery} setShowForm={setShowQuery} />
                     </Card>
                 </Overlay>
             }

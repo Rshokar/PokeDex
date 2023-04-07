@@ -24,7 +24,7 @@ const Images = ({ pokemon, setPK }: Props) => {
                         }
                         final += strIndex
                     }
-                    return <Image id={final} name={pokemon[i + index].name.english} onClick={() => setPK(pokemon[i + index])} />
+                    return <Image key={index} id={final} name={pokemon[i + index].name.english} onClick={() => setPK(pokemon[i + index])} />
                 })
 
         }

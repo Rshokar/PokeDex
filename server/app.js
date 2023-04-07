@@ -79,6 +79,20 @@ app.get('/pokemons', async (req, res) => {
     const page = req.query.page || 0
     const limit = req.query.limit || 10
 
+    const temp = await Pokemon.find();
+
+    // // Make a collection of all the types
+    // let types = []
+    // temp.forEach((pokemon) => {
+    //     pokemon.type.forEach((type) => {
+    //         if (!types.includes(type)) {
+    //             types.push(type)
+    //         }
+    //     })
+    // })
+
+    // console.log(types)
+
     const p = await Pokemon.find().skip(page * limit).limit(limit);
     return res.send(p);
 })
