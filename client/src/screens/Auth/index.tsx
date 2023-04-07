@@ -5,6 +5,7 @@ import style from './style';
 import HalfCard from '../../components/Cards/Card';
 import { set } from 'react-hook-form';
 import User from '../../models/User';
+import AuthController from '../../controllers/AuthController';
 
 type Props = {
     setUser: React.Dispatch<React.SetStateAction<User | undefined>>
@@ -14,8 +15,19 @@ type Props = {
 const Auth = ({ setUser }: Props) => {
 
     const [login, setLogin] = useState<boolean>(true);
+    const [formError, setFormError] = useState<string>("");
 
     const { container, title } = style;
+
+    const auth = async (email: string, password: string): Promise<void> => {
+        console.log("AUTH PARAMS: ", email, password)
+        const authed = await AuthController.login(email, password)
+
+        // if (!authed)
+        //     return setFormError("")
+
+        // return setUser(authed.data)
+    }
 
     return (
         <>
@@ -25,12 +37,12 @@ const Auth = ({ setUser }: Props) => {
                         login ?
                             <>
                                 <span style={title}>Login</span>
-                                <LoginForm setLogin={() => setLogin(false)} authenticate={setUser} />
+                                <LoginForm setLogin={setLogin} authenticate={auth} formError={formError} />
                             </>
                             :
                             <>
                                 <span style={title}>Register</span>
-                                <RegisterForm setLogin={() => setLogin(true)} authenticate={setUser} />
+                                <RegisterForm setLogin={() => setLogin(true)} authenticate={setUser} formError={formError} />
                             </>
                     }
                 </div>

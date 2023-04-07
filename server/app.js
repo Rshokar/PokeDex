@@ -9,6 +9,7 @@ const bodyParer = require('body-parser')
 const swaggerJSDoc = require('swagger-jsdoc')
 const morgan = require('morgan');
 const cors = require('cors');
+const { login, logout, register, authenticate } = require('./controllers/AuthController')
 
 const app = express()
 app.use(bodyParer.json())
@@ -71,6 +72,10 @@ const resetDB = async () => {
         await temp.save();
     }
 }
+
+app.post("/login", login);
+app.post("/logout", logout);
+app.post("/register", register);
 
 
 app.get('/pokemons', async (req, res) => {

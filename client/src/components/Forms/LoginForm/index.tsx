@@ -12,11 +12,12 @@ type LoginFormInputs = {
 };
 
 type Props = {
-    setLogin: Function
-    authenticate: React.Dispatch<React.SetStateAction<User | undefined>>
+    setLogin: React.Dispatch<React.SetStateAction<boolean>>
+    authenticate: (email: string, password: string) => Promise<void>
+    formError: string
 }
 
-export const LoginForm = ({ setLogin, authenticate }: Props) => {
+export const LoginForm = ({ setLogin, authenticate, formError }: Props) => {
     const {
         register,
         handleSubmit,
@@ -24,7 +25,8 @@ export const LoginForm = ({ setLogin, authenticate }: Props) => {
     } = useForm<LoginFormInputs>();
 
     const onSubmit = (data: LoginFormInputs) => {
-        authenticate(new User(0, 'rav@demo.com', 'user'))
+        console.log("FORM DATA: ", data)
+        return authenticate(data.email, data.password)
     };
 
     const { container } = style;
@@ -48,7 +50,7 @@ export const LoginForm = ({ setLogin, authenticate }: Props) => {
                 Login
             </Button>
 
-            <span onClick={e => { e.preventDefault(); setLogin() }}>Dont have an account?</span>
+            <span style={{ padding: '10px' }} onClick={e => { e.preventDefault(); setLogin(false) }}>Dont have an account?</span>
         </form>
     );
 };

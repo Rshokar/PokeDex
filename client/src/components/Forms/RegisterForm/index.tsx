@@ -15,6 +15,7 @@ type FormValues = {
 type Props = {
     setLogin: Function
     authenticate: React.Dispatch<React.SetStateAction<User | undefined>>
+    formError: string
 }
 
 const inputs: React.CSSProperties = {
@@ -46,7 +47,7 @@ const error: React.CSSProperties = {
     padding: "0px",
 }
 
-const RegisterForm = ({ setLogin, authenticate }: Props) => {
+const RegisterForm = ({ setLogin, authenticate, formError }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>();
 
@@ -103,11 +104,13 @@ const RegisterForm = ({ setLogin, authenticate }: Props) => {
                 {errors.role && <span style={error}>This field is required</span>}
             </div>
 
+            {error && <span style={error} >{formError}</span>}
+
             <Button type="submit" disabled={isLoading} >
                 Register
             </Button>
 
-            <span onClick={e => { e.preventDefault(); setLogin() }}>Already have an account?</span>
+            <span style={{ padding: '10px' }} onClick={e => { e.preventDefault(); setLogin() }}>Already have an account?</span>
 
         </form>
     );
