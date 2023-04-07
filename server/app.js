@@ -83,17 +83,15 @@ app.get('/pokemons', async (req, res) => {
     const types = req.query.type || []
     const name = req.query.name || ""
 
-    const temp = await Pokemon.find({
-        $and: [
-            { type: { $all: types } },
-            { "name.english": { $regex: name, $options: 'i' } }
-        ]
-    }).skip(page * limit).limit(limit)
+    if (name != "" || types.length != 0)
+        return res.send(await Pokemon.find({
+            $and: [
+                { type: { $all: types } },
+                { "name.english": { $regex: name, $options: 'i' } }
+            ]
+        }).skip(page * limit).limit(limit))
 
-    console.log(temp)
-    // console.log(temp.length)
-
-    return res.send(temp)
+    return res.send(await Pokemon.find().skip(page * limit).limit(limit))
 })
 
 app.listen(5000, () => console.log("http://localhost:5000"))

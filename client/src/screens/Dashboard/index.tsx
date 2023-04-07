@@ -21,6 +21,7 @@ const Dashboard = () => {
     const [query, setQuery] = useState<Query>();
     const [pk, setPK] = useState<Pokemon | undefined>();
     const [showQuery, setShowQuery] = useState<boolean>(false);
+    const [more, setMore] = useState<boolean>(true)
     const [page, setPage] = useState<number>(0);
     const [limit, setLimit] = useState<number>(9);
 
@@ -29,6 +30,8 @@ const Dashboard = () => {
     useEffect(() => {
         async function run(): Promise<any> {
             const pk: Pokemon[] = await PokemonController.getPokedex(page, limit, query);
+            if (pk.length < limit)
+                setMore(false)
             setPokemon([...pokemon, ...pk]);
         }
         run()
@@ -38,9 +41,13 @@ const Dashboard = () => {
 
     useEffect(() => {
         async function run(): Promise<any> {
-
+            setPage(0)
             const pk: Pokemon[] = await PokemonController.getPokedex(page, limit, query);
-            setPokemon([...pokemon, ...pk]);
+            console.log("POKEMON: ", pk)
+            setMore(true)
+            if (pk.length < limit)
+                setMore(false)
+            setPokemon(pk);
         }
         run()
     }, [query])
@@ -53,12 +60,12 @@ const Dashboard = () => {
                 {pk ? <PokemonStats pK={pk} /> :
                     <>
                         <Images pokemon={pokemon} setPK={setPK} />
-                        <Button style={{ width: '100%' }} onClick={(e) => {
+                        {more && <Button style={{ width: '100%' }} onClick={(e) => {
                             e.preventDefault();
                             setPage(page + 1)
                         }}>
                             Load More
-                        </Button>
+                        </Button>}
                     </>
 
                 }
