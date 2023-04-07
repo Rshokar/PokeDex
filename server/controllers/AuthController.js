@@ -43,9 +43,6 @@ const login = async (req, res) => {
     res.header("auth-token", access);
     res.header("refresh-token", refresh);
 
-    // Print all headers
-    console.log(res.getHeaders());
-
     REFRESH_TOKEN_ARR.push(refresh);
 
     return res.send({ message: 'Logged in successfully', user: user });
@@ -78,7 +75,6 @@ const register = async (req, res, next) => {
 
     // await User.deleteMany()
 
-    console.log("GOT EM: ", req.body)
     // Check to see if username and password are provided
     if (!req.body.email || !req.body.password) {
         return res.status(400).json({
@@ -103,7 +99,6 @@ const register = async (req, res, next) => {
     // Create new user
     const newUser = new User({ email: req.body.email, password: hashedPassword, type: req.body.type });
 
-    console.log("NEW USER: ", newUser)
 
     // Save user to database
     try {
@@ -122,9 +117,9 @@ const register = async (req, res, next) => {
 }
 
 const authenticate = (type) => async (req, res, next) => {
+    console.log("AUTHENTICATE")
     next = next ? next : res.send;
     // Need to see if token exist in headers
-    // console.log("AUTHENTICATE")
     if (!req.headers.authorization) {
         return res.status(401).send({ message: 'Unauthorized' })
     }

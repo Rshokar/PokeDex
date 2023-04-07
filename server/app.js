@@ -93,7 +93,7 @@ app.post("/logout", logout);
 app.post("/register", register);
 
 
-app.get('/pokemons', async (req, res) => {
+app.get('/pokemons', authenticate(undefined), async (req, res) => {
 
     console.log(req.query)
 

@@ -39,9 +39,6 @@ const Auth = ({ setUser }: Props) => {
 
         const json = await response.json()
 
-        console.log("AUTH ACCESS: ", AuthController.accessToken)
-        console.log("AUTH REFRESH: ", AuthController.refreshToken)
-
         if (response.status !== 200)
             return setFormError(json.message)
 

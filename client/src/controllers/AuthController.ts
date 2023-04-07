@@ -44,6 +44,13 @@ class AuthController {
             return error.response;
         }
     }
+
+    static getAuthHeader(): Headers {
+        return new Headers({
+            'Content-Type': 'application/json',
+            'authorization': `Access:${this.accessToken} Refresh:${this.refreshToken}`
+        });
+    }
 }
 
 export default AuthController;

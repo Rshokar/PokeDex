@@ -20,8 +20,6 @@ const PK = ({ pk, setPk }: Props) => {
         setId(id);
     }, [pk])
 
-    console.log("PK:", pk)
-
     const { wrapper, image } = style
 
     return (

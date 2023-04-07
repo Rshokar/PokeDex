@@ -11,8 +11,6 @@ type Props = {
 
 const PokemonStats = ({ pK }: Props) => {
 
-    console.log("POKEMON STATS:", pK)
-
     const { wrapper, statWrapper, bar } = style
 
     return (

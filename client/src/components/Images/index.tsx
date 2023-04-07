@@ -9,11 +9,14 @@ type Props = {
 }
 
 const Images = ({ pokemon, setPK }: Props) => {
-    const [i, setI] = useState<number>(0) // I dont remember what this does, i lifted it from my last assignment
+    const [i] = useState<number>(0) // I dont remember what this does, i lifted it from my last assignment
+
+    console.log("IMAGES: ", pokemon)
     return <>
         {
             Array.from({ length: pokemon.length }, (_, index) => index + 1)
                 .map((page, index) => {
+                    console.log("HELLO JELLO")
                     let strIndex;
                     let final = "";
                     if ((i + index) < pokemon.length) {
@@ -24,7 +27,13 @@ const Images = ({ pokemon, setPK }: Props) => {
                         }
                         final += strIndex
                     }
-                    return <Image key={index} id={final} name={pokemon[i + index].name.english} onClick={() => setPK(pokemon[i + index])} />
+
+                    console.log("POKEMON IMAGE: ", pokemon[index + i])
+                    return <Image key={index} id={final} name={pokemon[i + index].name.english} onClick={() => {
+                        console.log("SET POKEMON", pokemon[i + index])
+                        setPK(pokemon[i + index])
+                    }
+                    } />
                 })
 
         }

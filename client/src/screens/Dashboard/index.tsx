@@ -23,11 +23,12 @@ const Dashboard = () => {
     const [showQuery, setShowQuery] = useState<boolean>(false);
     const [more, setMore] = useState<boolean>(true)
     const [page, setPage] = useState<number>(0);
-    const [limit, setLimit] = useState<number>(9);
+    const [limit] = useState<number>(9);
 
     const { floatingButton, floatingQueryForm } = style
 
     useEffect(() => {
+        console.log("USER EFFECT")
         async function run(): Promise<any> {
             const pk: Pokemon[] = await PokemonController.getPokedex(page, limit, query);
             if (pk.length < limit)
@@ -36,6 +37,8 @@ const Dashboard = () => {
         }
         run()
     }, [page, limit])
+
+    console.log("POKEMON: ", pk)
 
 
 

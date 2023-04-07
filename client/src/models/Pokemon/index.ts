@@ -20,6 +20,7 @@ class Pokemon {
     name: PokemonName
     id: number
     type: string[]
+
     constructor(bs: PokemonBase, id: number, name: PokemonName, type: string[]) {
         this.base = bs
         this.id = id

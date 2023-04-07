@@ -10,8 +10,6 @@ type Props = {
 const Title: React.FC<Props> = ({ pK }: Props) => {
 
     const { wrapper } = style
-    console.log(pK);
-
     return (
 
         <div style={wrapper}>
