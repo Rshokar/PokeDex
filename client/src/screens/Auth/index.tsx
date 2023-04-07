@@ -7,11 +7,7 @@ import User from '../../models/User';
 import AuthController from '../../controllers/AuthController';
 
 type Props = {
-    setUser: React.Dispatch<React.SetStateAction<{
-        user: User;
-        access: string;
-        refresh: string;
-    } | undefined>>
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>
 }
 
 
@@ -41,22 +37,16 @@ const Auth = ({ setUser }: Props) => {
     const auth = async (email: string, password: string): Promise<void> => {
         const response = await AuthController.login(email, password)
 
-        console.log("RESPONSE: ", response)
-
-        const authToken = response.headers.get('auth-token') || "";
-        const refreshToken = response.headers.get('refresh-token') || "";
-
-        console.log("LOGIN RESULT: ", response)
-        console.log('auth-token:', authToken);
-        console.log('refresh-token:', refreshToken);
-
         const json = await response.json()
+
+        console.log("AUTH ACCESS: ", AuthController.accessToken)
+        console.log("AUTH REFRESH: ", AuthController.refreshToken)
 
         if (response.status !== 200)
             return setFormError(json.message)
 
 
-        return setUser({ user: json.user, refresh: refreshToken, access: authToken })
+        return setUser(json.user)
     }
 
     console.log(formError)
