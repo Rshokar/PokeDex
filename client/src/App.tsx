@@ -36,11 +36,11 @@ function App() {
       results.push({ label: "Dashboard", icon: <DashboardIcon /> })
 
     results.push({ label: "Pokedex", icon: <BookIcon /> })
-
-    console.log('RESULTS', results)
     return setNavBarButtons(results)
 
   }, [user])
+
+  console.log("USER", user)
 
 
 

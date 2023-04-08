@@ -8,9 +8,8 @@ const REFRESH_TOKEN_SECRET = 'refresh-token-secret';
 let REFRESH_TOKEN_ARR = [];
 
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
 
-    console.log(req.headers)
     // See if username and password are provided
     if (!req.body.email || !req.body.password) {
         return res.status(400).json({
@@ -45,10 +44,13 @@ const login = async (req, res) => {
 
     REFRESH_TOKEN_ARR.push(refresh);
 
-    return res.send({ message: 'Logged in successfully', user });
+    // Add res to res and then call next
+    req.user = user;
+    res.locals.user = user;
+    next();
 }
 
-const logout = async (req, res) => {
+const logout = async (req, res, next) => {
 
     // See if refresh token is provided
     if (!req.body.refreshToken) {
@@ -83,7 +85,6 @@ const register = async (req, res, next) => {
 
     // Check to see if username is already taken
     const dupUser = await User.findOne({ email: req.body.email });
-    console.log(dupUser)
     if (dupUser) {
         return res.status(400).json({
             message: 'Email already taken'
@@ -130,7 +131,7 @@ const authenticate = (role) => async (req, res, next) => {
     // Need to see if token is valid
     try {
         let user = await promisify(jwt.verify)(access, ACCESS_TOKEN_SECRET);
-
+        req.user = user
         console.log("HELLLLO AUTHENTICATE", user)
         if (!role || user.role == role)
             return next();
@@ -143,6 +144,7 @@ const authenticate = (role) => async (req, res, next) => {
         // If valid create new tokens and attach to headers
         if (!role || user.role == role) {
             const [newAccess, newRefresh] = createNewTokens(user)
+            req.user = user
             res.header("auth-token", newAccess)
             res.header("refresh-token", newRefresh)
             REFRESH_TOKEN_ARR = REFRESH_TOKEN_ARR.filter(thing => thing != refresh)

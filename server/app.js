@@ -10,6 +10,7 @@ const swaggerJSDoc = require('swagger-jsdoc')
 const morgan = require('morgan');
 const cors = require('cors');
 const cookeParser = require('cookie-parser');
+const stats = require('./controllers/StatsController')
 const { login, logout, register, authenticate } = require('./controllers/AuthController')
 
 
@@ -88,12 +89,12 @@ const resetDB = async () => {
     }
 }
 
-app.post("/login", login);
-app.post("/logout", logout);
-app.post("/register", register);
+app.post("/login", login, stats);
+app.post("/logout", logout, stats);
+app.post("/register", register, stats);
 
 
-app.get('/pokemons', authenticate(undefined), async (req, res) => {
+app.get('/pokemons', authenticate(undefined), async (req, res, next) => {
 
     console.log(req.query)
 
@@ -103,15 +104,19 @@ app.get('/pokemons', authenticate(undefined), async (req, res) => {
     const types = req.query.type || []
     const name = req.query.name || ""
 
-    if (name != "" || types.length != 0)
-        return res.send(await Pokemon.find({
+    if (name != "" || types.length != 0) {
+        res.locals = await Pokemon.find({
             $and: [
                 { type: { $all: types } },
                 { "name.english": { $regex: name, $options: 'i' } }
             ]
-        }).skip(page * limit).limit(limit))
+        }).skip(page * limit).limit(limit)
+    } else {
+        res.locals = await Pokemon.find().skip(page * limit).limit(limit)
+    }
 
-    return res.send(await Pokemon.find().skip(page * limit).limit(limit))
-})
+    // return res.send(res.locals.pokemon)
+    next()
+}, stats)
 
 app.listen(5000, () => console.log("http://localhost:5000"))

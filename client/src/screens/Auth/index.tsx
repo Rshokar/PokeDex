@@ -39,10 +39,10 @@ const Auth = ({ setUser }: Props) => {
 
         const json = await response.json()
 
+        console.log(json)
+
         if (response.status !== 200)
             return setFormError(json.message)
-
-        console.log(json)
 
 
         return setUser(json.user)
