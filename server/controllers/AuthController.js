@@ -45,10 +45,11 @@ const login = async (req, res) => {
 
     REFRESH_TOKEN_ARR.push(refresh);
 
-    return res.send({ message: 'Logged in successfully', user: user });
+    return res.send({ message: 'Logged in successfully', user });
 }
 
 const logout = async (req, res) => {
+
     // See if refresh token is provided
     if (!req.body.refreshToken) {
         return res.status(400).json({
@@ -73,8 +74,6 @@ const logout = async (req, res) => {
 
 const register = async (req, res, next) => {
 
-    // await User.deleteMany()
-
     // Check to see if username and password are provided
     if (!req.body.email || !req.body.password) {
         return res.status(400).json({
@@ -97,7 +96,7 @@ const register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     // Create new user
-    const newUser = new User({ email: req.body.email, password: hashedPassword, type: req.body.type });
+    const newUser = new User({ email: req.body.email, password: hashedPassword, role: req.body.role });
 
 
     // Save user to database
@@ -116,7 +115,7 @@ const register = async (req, res, next) => {
     }
 }
 
-const authenticate = (type) => async (req, res, next) => {
+const authenticate = (role) => async (req, res, next) => {
     console.log("AUTHENTICATE")
     next = next ? next : res.send;
     // Need to see if token exist in headers
@@ -133,7 +132,7 @@ const authenticate = (type) => async (req, res, next) => {
         let user = await promisify(jwt.verify)(access, ACCESS_TOKEN_SECRET);
 
         console.log("HELLLLO AUTHENTICATE", user)
-        if (!type || user.type == type)
+        if (!role || user.role == role)
             return next();
     } catch (err) {
     }
@@ -142,7 +141,7 @@ const authenticate = (type) => async (req, res, next) => {
     try {
         let user = await promisify(jwt.verify)(refresh, REFRESH_TOKEN_SECRET)
         // If valid create new tokens and attach to headers
-        if (!type || user.type == type) {
+        if (!role || user.role == role) {
             const [newAccess, newRefresh] = createNewTokens(user)
             res.header("auth-token", newAccess)
             res.header("refresh-token", newRefresh)
@@ -157,8 +156,8 @@ const authenticate = (type) => async (req, res, next) => {
 
 const createNewTokens = (user) => {
     // Create and assign a token and refresh token
-    const accessToken = jwt.sign({ _id: user._id, type: user.type }, ACCESS_TOKEN_SECRET, { expiresIn: '3s' });
-    const refreshToken = jwt.sign({ _id: user._id, type: user.type }, REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+    const accessToken = jwt.sign({ _id: user._id, role: user.role }, ACCESS_TOKEN_SECRET, { expiresIn: '3s' });
+    const refreshToken = jwt.sign({ _id: user._id, role: user.role }, REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 
     return [accessToken, refreshToken];
 }

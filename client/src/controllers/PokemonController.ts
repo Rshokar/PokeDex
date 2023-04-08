@@ -25,7 +25,6 @@ export class PokemonController {
 
 
             const data = await res.json();
-            console.log(data)
             return data.map((pokemon: any) => new Pokemon(pokemon.base, pokemon.id, pokemon.name, pokemon.type));
         } catch (error) {
             console.error(error);

@@ -3,8 +3,8 @@ import Auth from './screens/Auth';
 import style from './style';
 import User from './models/User';
 import BottomNav, { NavButtonProps } from './components/NavBar';
-import NavButton from './components/NavBar'
-import AcUnitIcon from '@mui/icons-material/AcUnit';
+import BookIcon from '@mui/icons-material/Book';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import Dashboard from './screens/Dashboard';
 
 
@@ -26,19 +26,22 @@ function App() {
   }, [])
 
   useEffect(() => {
+    console.log("USER", user)
 
     const results: NavButtonProps[] = [];
     if (!user)
       return setNavBarButtons([])
 
     if (user.role === 'admin')
-      results.push({ label: "Dashboard", icon: <AcUnitIcon /> })
+      results.push({ label: "Dashboard", icon: <DashboardIcon /> })
 
-    results.push({ label: "Pokedex", icon: <AcUnitIcon /> })
+    results.push({ label: "Pokedex", icon: <BookIcon /> })
 
+    console.log('RESULTS', results)
     return setNavBarButtons(results)
 
   }, [user])
+
 
 
   return (

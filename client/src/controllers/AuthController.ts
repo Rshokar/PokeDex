@@ -9,7 +9,6 @@ class AuthController {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'BLAH': 'BLAH'
                 },
                 mode: 'cors',
                 body: JSON.stringify({ email, password })
@@ -17,10 +16,6 @@ class AuthController {
 
             this.accessToken = response.headers.get('auth-token') || "";
             this.refreshToken = response.headers.get('refresh-token') || "";
-
-            console.log("ACCESS: ", this.accessToken)
-            console.log("REFRESH: ", this.refreshToken)
-
 
             return response;
         } catch (error: any) {
@@ -36,7 +31,7 @@ class AuthController {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, password, type: role })
+                body: JSON.stringify({ email, password, role })
             });
 
             return response;
