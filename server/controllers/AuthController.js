@@ -60,6 +60,8 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
 
+    console.log(req.body)
+
     // See if refresh token is provided
     if (!req.body.refreshToken) {
         return res.status(400).json({
@@ -79,7 +81,9 @@ const logout = async (req, res, next) => {
     // See if refresh token is in array
     REFRESH_TOKEN_ARR = REFRESH_TOKEN_ARR.filter(thing => thing != req.body.refreshToken);
 
-    res.send({ message: 'Logged out successfully' });
+    req.user = user
+    res.locals.data = { message: 'Logged out successfully' };
+    return next();
 }
 
 const register = async (req, res, next) => {

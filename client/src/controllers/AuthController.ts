@@ -43,6 +43,24 @@ class AuthController {
         }
     }
 
+    // Logs a user out of the application
+    static async logOut(): Promise<Response> {
+
+        console.log("REFRESH TOKEN", this.refreshToken)
+        try {
+            const res = await fetch('http://localhost:5000/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ refreshToken: this.refreshToken })
+            });
+            return res
+        } catch (error: any) {
+            return error.response;
+        }
+
+    }
     static getAuthHeader(): Headers {
         return new Headers({
             'Content-Type': 'application/json',

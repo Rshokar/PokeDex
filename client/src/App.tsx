@@ -5,7 +5,9 @@ import User from './models/User';
 import BottomNav, { NavButtonProps } from './components/NavBar';
 import BookIcon from '@mui/icons-material/Book';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Dashboard from './screens/Dashboard';
+import AuthController from './controllers/AuthController';
 
 
 const { container } = style;
@@ -25,6 +27,11 @@ function App() {
 
   }, [])
 
+  const logout = async () => {
+    const res = await AuthController.logOut()
+    setUser(undefined)
+  }
+
   useEffect(() => {
     console.log("USER", user)
 
@@ -36,6 +43,7 @@ function App() {
       results.push({ label: "Dashboard", icon: <DashboardIcon /> })
 
     results.push({ label: "Pokedex", icon: <BookIcon /> })
+    results.push({ label: "Log out", icon: <LogoutIcon />, onClick: () => logout() })
     return setNavBarButtons(results)
 
   }, [user])
