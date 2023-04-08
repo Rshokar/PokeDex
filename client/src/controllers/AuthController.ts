@@ -17,6 +17,9 @@ class AuthController {
             this.accessToken = response.headers.get('auth-token') || "";
             this.refreshToken = response.headers.get('refresh-token') || "";
 
+            console.log(this.accessToken)
+            console.log(this.refreshToken)
+
             return response;
         } catch (error: any) {
             return error.response;

@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { User } = require('../models');
+const Stat = require('../models/Stat')
 const { promisify } = require("util");
+const { stats } = require('./StatsController');
 
 const ACCESS_TOKEN_SECRET = 'access-token-secret';
 const REFRESH_TOKEN_SECRET = 'refresh-token-secret';
@@ -9,30 +11,36 @@ let REFRESH_TOKEN_ARR = [];
 
 
 const login = async (req, res, next) => {
-
     // See if username and password are provided
     if (!req.body.email || !req.body.password) {
-        return res.status(400).json({
+        res.statusCode = 400;
+        res.locals.user = {
             message: 'Username and password are required'
-        });
+        }
+        return next()
     }
 
     // See if user exists
     const user = await User.findOne({ email: req.body.email });
 
+    console.log("LOGIN")
     // See if user exists
     if (!user) {
-        return res.status(400).json({
+        res.statusCode = 400;
+        res.locals.data = {
             message: 'Username or password is incorrect'
-        });
+        }
+        return next()
     }
 
     // See if password is correct
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) {
-        return res.status(400).json({
+        res.statusCode = 400;
+        res.locals.data = {
             message: 'Username or password is incorrect'
-        });
+        }
+        return next()
     }
 
     // Create and assign a token and refresh token
@@ -78,17 +86,21 @@ const register = async (req, res, next) => {
 
     // Check to see if username and password are provided
     if (!req.body.email || !req.body.password) {
-        return res.status(400).json({
+        res.statusCode = 400;
+        res.locals.data = {
             message: 'Username and password are required'
-        });
+        }
+        return next()
     }
 
     // Check to see if username is already taken
     const dupUser = await User.findOne({ email: req.body.email });
     if (dupUser) {
-        return res.status(400).json({
+        res.statusCode = 400;
+        res.locals.data = {
             message: 'Email already taken'
-        });
+        }
+        return next()
     }
 
 
@@ -103,21 +115,24 @@ const register = async (req, res, next) => {
     // Save user to database
     try {
         const savedUser = await newUser.save();
-        return res.status(201).json({
+        res.statusCode = 201;
+        res.locals = {
             message: 'User created successfully',
             user: savedUser
-        });
+        }
     }
     catch (err) {
         console.log(err)
-        return res.status(400).json({
+        res.statusCode = 400;
+        res.locals.data = {
             message: 'Error creating user'
-        });
+        }
+    } finally {
+        next();
     }
 }
 
 const authenticate = (role) => async (req, res, next) => {
-    console.log("AUTHENTICATE")
     next = next ? next : res.send;
     // Need to see if token exist in headers
     if (!req.headers.authorization) {
@@ -138,6 +153,7 @@ const authenticate = (role) => async (req, res, next) => {
     } catch (err) {
     }
 
+
     // Check to see if refresh token is valid
     try {
         let user = await promisify(jwt.verify)(refresh, REFRESH_TOKEN_SECRET)
@@ -153,7 +169,13 @@ const authenticate = (role) => async (req, res, next) => {
         }
     } catch (err) {
     }
-    return res.status(401).send({ message: 'Unauthorized' })
+
+    res.statusCode = 401;
+    res.locals.data = {
+        message: 'Unauthorized'
+    }
+
+    return await stats(req, res)
 }
 
 const createNewTokens = (user) => {

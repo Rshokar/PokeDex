@@ -10,7 +10,7 @@ const swaggerJSDoc = require('swagger-jsdoc')
 const morgan = require('morgan');
 const cors = require('cors');
 const cookeParser = require('cookie-parser');
-const stats = require('./controllers/StatsController')
+const { stats } = require('./controllers/StatsController')
 const { login, logout, register, authenticate } = require('./controllers/AuthController')
 
 
