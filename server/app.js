@@ -12,22 +12,23 @@ const cors = require('cors');
 const cookeParser = require('cookie-parser');
 const { stats } = require('./controllers/StatsController')
 const { login, logout, register, authenticate } = require('./controllers/AuthController')
+const Stats = require('./models/Stat')
 
 
 const app = express()
 app.use(cookeParser());
 app.use(bodyParer.json())
 app.use(morgan('dev'))
-const swaggerOptions = {
-    swaggerDefinition: {
-        info: {
-            title: 'Library API',
-            version: '1.0.0',
-            description: "Pokemon API"
-        }
-    },
-    apis: ['app.js']
-}
+// const swaggerOptions = {
+//     swaggerDefinition: {
+//         info: {
+//             title: 'Library API',
+//             version: '1.0.0',
+//             description: "Pokemon API"
+//         }
+//     },
+//     apis: ['app.js']
+// }
 app.use(cors({
     "origin": "*",
     "Access-Control-Allow-Origin": "*", // Required for CORS support to work
@@ -119,5 +120,16 @@ app.get('/pokemons', authenticate(undefined), async (req, res, next) => {
     next()
 }, stats)
 
+
+app.get('/stats', authenticate('admin'), async (req, res, next) => {
+
+    // Get all stats to send to client
+    const s = await Stats.find();
+    console.log(s)
+    res.locals = s
+
+    next();
+
+}, stats)
 
 app.listen(5000, () => console.log("http://localhost:5000"))

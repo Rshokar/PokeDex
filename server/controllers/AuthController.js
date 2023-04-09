@@ -23,7 +23,6 @@ const login = async (req, res, next) => {
     // See if user exists
     const user = await User.findOne({ email: req.body.email });
 
-    console.log("LOGIN")
     // See if user exists
     if (!user) {
         res.statusCode = 400;
@@ -151,7 +150,6 @@ const authenticate = (role) => async (req, res, next) => {
     try {
         let user = await promisify(jwt.verify)(access, ACCESS_TOKEN_SECRET);
         req.user = user
-        console.log("HELLLLO AUTHENTICATE", user)
         if (!role || user.role == role)
             return next();
     } catch (err) {
