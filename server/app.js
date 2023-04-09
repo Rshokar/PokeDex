@@ -119,4 +119,5 @@ app.get('/pokemons', authenticate(undefined), async (req, res, next) => {
     next()
 }, stats)
 
+
 app.listen(5000, () => console.log("http://localhost:5000"))

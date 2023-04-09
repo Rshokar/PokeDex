@@ -8,6 +8,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Dashboard from './screens/Dashboard';
 import AuthController from './controllers/AuthController';
+import Stats from './screens/Stats';
 
 
 const { container } = style;
@@ -15,17 +16,8 @@ function App() {
 
   const [user, setUser] = useState<User | undefined>(undefined)
   const [navBarButtons, setNavBarButtons] = useState<NavButtonProps[]>([])
+  const [page, setPage] = useState<string>('pokedex');
 
-  useEffect(() => {
-    const auth = async (): Promise<void> => {
-      // Attemp to authenticate and refresh tokens
-
-      // If success set user
-
-      // Other wise set playe as undefined
-    }
-
-  }, [])
 
   const logout = async () => {
     const res = await AuthController.logOut()
@@ -40,9 +32,9 @@ function App() {
       return setNavBarButtons([])
 
     if (user.role === 'admin')
-      results.push({ label: "Dashboard", icon: <DashboardIcon /> })
+      results.push({ label: "Dashboard", icon: <DashboardIcon />, onClick: () => setPage("dashboard") })
 
-    results.push({ label: "Pokedex", icon: <BookIcon /> })
+    results.push({ label: "Pokedex", icon: <BookIcon />, onClick: () => setPage("pokedex") })
     results.push({ label: "Log out", icon: <LogoutIcon />, onClick: () => logout() })
     return setNavBarButtons(results)
 
@@ -58,7 +50,10 @@ function App() {
         <Auth setUser={setUser} />
         :
         <>
-          <Dashboard />
+          {
+            page === 'pokedex' ? <Dashboard /> : <Stats />
+
+          }
           <BottomNav buttons={navBarButtons} />
         </>
       }
